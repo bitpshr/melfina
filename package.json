@@ -1,0 +1,33 @@
+{
+  "name": "melfina",
+  "version": "1.0.0",
+  "private": true,
+  "now": {
+    "name": "melfina",
+    "alias": "melfina.network"
+  },
+  "dependencies": {
+    "abi-decoder": "^1.0.9",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.0",
+    "ethereumjs-tx": "^1.3.3",
+    "express": "^4.16.2",
+    "keythereum": "^1.0.2",
+    "moment": "^2.19.2",
+    "now": "^8.5.4",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-scripts": "^1.0.17",
+    "sha.js": "^2.4.9",
+    "solc": "^0.4.18",
+    "web3": "^1.0.0-beta.26",
+    "yargs": "^10.0.3"
+  },
+  "scripts": {
+    "build:client": "react-scripts build",
+    "start:client": "react-scripts start",
+    "start": "npm run build:client && node src/server.js -s src/contracts/ProofOfExistence.sol",
+    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
+    "alias": "now alias --token=$NOW_TOKEN"
+  }
+}
