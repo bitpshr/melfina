@@ -164,7 +164,7 @@ class App extends Component {
 				<div className="info">
 					<h1>MELFINA</h1>
 					<p>Melfina is a proof-of-thought smart contract running on the Ethereum blockchain.</p>
-					<p className="instructions">Submit a message to store its SHA-256 hash permanently on the blockchain. Verify a message to see if it's been stored before.</p>
+					<p className="instructions">Submit a thought to store its SHA-256 hash permanently on the blockchain. Verify a thought to see if it's been stored before.</p>
 					{processes.map(process => (
 						<div key={process.msg}>
 							{process.msg}

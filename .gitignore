@@ -1,7 +1,5 @@
-.abi
 .DS_Store
 .env
-*.bin
 build
 node_modules
 npm-debug.log*

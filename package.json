@@ -24,10 +24,14 @@
     "yargs": "^10.0.3"
   },
   "scripts": {
+    "build:contract": "solcjs --abi --bin src/contracts/ProofOfExistence.sol -o src/contracts",
     "build:client": "react-scripts build",
     "start:client": "react-scripts start",
-    "start": "npm run build:client && node src/server.js -s src/contracts/ProofOfExistence.sol",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
-    "alias": "now alias --token=$NOW_TOKEN"
+    "start": "node src/main.js -t serve",
+    "deploy": "now -e NODE_ENV=production -e ETH_ADDRESS=$ETH_ADDRESS -e ETH_KEYFILE=$ETH_KEYFILE -e ETH_PASSWORD=$ETH_PASSWORD -e ETH_PROVIDER=$ETH_PROVIDER -e CONTRACT_ADDRESS=$CONTRACT_ADDRESS --token $NOW_TOKEN --npm",
+    "now-build": "npm run build:client",
+    "now-start": "npm run start",
+    "now-alias": "now alias --token=$NOW_TOKEN",
+    "now-log": "now logs melfina.network --token=$NOW_TOKEN"
   }
 }

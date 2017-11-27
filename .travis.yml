@@ -1,0 +1,8 @@
+language: node_js
+node_js: "node"
+cache: npm
+script:
+- export CONTRACT_ADDRESS="$(node src/main.js -t deploy)"
+- echo "🔥  Contract deployed at $CONTRACT_ADDRESS"
+- CONTRACT_ADDRESS=$CONTRACT_ADDRESS npm run deploy
+after_script: npm run now-alias && npm run now-log
