@@ -178,37 +178,26 @@ function serve() {
 	const app = express();
 	app.use(bodyParser.json());
 	app.use(express.static(path.join(__dirname, '../build')));
-	app.post('/notarize', notarize);
+	app.get('/address', getAddress);
 	app.get('/verify', verify);
+	app.post('/notarize', notarize);
 	app.listen(1337, () => {
 		log('info', `Server running on port 1337`)
 	});
 }
 
 /**
- * Stores the sha256 hash of a string in a smart contract
+ * Returns the address of the currently-deployed smart contract
  *
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-async function notarize(req, res) {
-	const value = req.body.value;
-	const valueHash = shajs('sha256').update(value).digest('hex');
-
-	log('info', `Notarizing "${value}"`);
-
-	try {
-		const txHash = await sendTransaction('notarize', [ valueHash ], undefined, true);
-		log('info', `Notarized ${value}`);
-		res.send(txHash);
-	} catch (error) {
-		log('fail', error);
-		res.status(500).send(error);
-	}
+async function getAddress(req, res) {
+	res.send(contractAddress);
 }
 
 /**
- * Verifis that the sha256 hash of a string exists in a smart contract
+ * Verifies that the sha256 hash of a string exists in a smart contract
  *
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
@@ -228,6 +217,28 @@ async function verify(req, res) {
 			notarized,
 			txHash: receipt.transactionHash
 		});
+	} catch (error) {
+		log('fail', error);
+		res.status(500).send(error);
+	}
+}
+
+/**
+ * Stores the sha256 hash of a string in a smart contract
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+async function notarize(req, res) {
+	const value = req.body.value;
+	const valueHash = shajs('sha256').update(value).digest('hex');
+
+	log('info', `Notarizing "${value}"`);
+
+	try {
+		const txHash = await sendTransaction('notarize', [ valueHash ], undefined, true);
+		log('info', `Notarized ${value}`);
+		res.send(txHash);
 	} catch (error) {
 		log('fail', error);
 		res.status(500).send(error);

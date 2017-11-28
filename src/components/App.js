@@ -10,10 +10,15 @@ class App extends Component {
 		this.verify = this.verify.bind(this);
 
 		this.state = {
+			contractAddress: undefined,
 			loading: false,
 			processes: [],
 			value: ''
 		};
+	}
+
+	componentDidMount() {
+		this.updateContractAddress();
 	}
 
 	onInputChange(event) {
@@ -41,6 +46,12 @@ class App extends Component {
 		lastProcess.status = status || lastProcess.status;
 		lastProcess.ok = ok;
 		return this.setStateAsync({ processes });
+	}
+
+	async updateContractAddress() {
+		this.setState({
+			contractAddress: await fetch('/address').then(response => response.text())
+		});
 	}
 
 	async notarize() {
@@ -81,7 +92,7 @@ class App extends Component {
 				...this.state.processes,
 				{
 					msg,
-					status: <i class="fa fa-circle-o-notch spinner" aria-hidden="true"></i>
+					status: <i className="fa fa-circle-o-notch spinner" aria-hidden="true"></i>
 				}
 			]
 		});
@@ -132,6 +143,7 @@ class App extends Component {
 
 	render() {
 		const {
+			contractAddress,
 			loading,
 			processes,
 			value
@@ -165,10 +177,22 @@ class App extends Component {
 					<h1>MELFINA</h1>
 					<p>Melfina is a proof-of-thought smart contract running on the Ethereum blockchain.</p>
 					<p className="instructions">Submit a thought to store its SHA-256 hash permanently on the blockchain. Verify a thought to see if it's been stored before.</p>
+					<div className="contractAddress">
+						Contract deployed
+						{contractAddress && <span className="status">
+							<div>
+								<a
+									href={`https://rinkeby.etherscan.io/address/${contractAddress}`} target="_blank"
+								>
+									Address <i className="fa fa-external-link" aria-hidden="true"></i>
+								</a>
+							</div>
+						</span>}
+					</div>
 					{processes.map(process => (
 						<div key={process.msg}>
 							{process.msg}
-							<span className={`status ${!process.ok ? 'error' : ''}`}>
+							<span className={`status ${!process.ok ? 'error' : 'ok'}`}>
 								{process.status}
 							</span>
 						</div>

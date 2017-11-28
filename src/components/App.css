@@ -10,6 +10,13 @@ body {
 	padding: 15px;
 }
 
+a {
+	border-bottom: 1px dashed;
+	color: inherit;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
 .content {
 	border: 1px solid #a7a09c;
 	display: flex;
@@ -101,17 +108,11 @@ body {
 	flex-grow: 0;
 	flex-shrink: 0;
 	padding: 15px;
-	width: 250px;
-}
-
-.instructions {
-	border-bottom: 1px solid #cbc3b7;
-	padding-bottom: 15px;
+	width: 255px;
 }
 
 .info h1 {
 	font-size: inherit;
-	font-weight: 400;
 	margin-bottom: 15px;
 	margin-top: 0;
 	text-transform: uppercase;
@@ -122,14 +123,13 @@ body {
 	margin-top: 0;
 }
 
-.info a {
-	border-bottom: 1px solid;
-	color: inherit;
-	text-decoration: none;
+.contractAddress {
+	border-bottom: 1px solid #cbc3b7;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
 }
 
 .status {
-	color: #217542;
 	float: right;
 	text-transform: uppercase;
 }
@@ -143,6 +143,10 @@ body {
 
 .error {
 	color: #c51c1c;
+}
+
+.ok {
+	color: #217542;
 }
 
 @keyframes rotate {
