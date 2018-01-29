@@ -11,14 +11,17 @@ Melfina is a proof-of-thought smart contract built on the [Ethereum](https://eth
 ```sh
 $ npm install
 $ 
-$ # Deploy contract and store address as env var
-$ export CONTRACT_ADDRESS="$(node src/main.js -t deploy)"
-$ 
 $ # Expose other env vars; dotenv is also supported
 $ export ETH_ADDRESS=<address>      # wallet to fund transactions
 $ export ETH_KEYFILE=<json>         # wallet keyfile JSON
 $ export ETH_PASSWORD=<password>    # wallet keyfile password
 $ export ETH_PROVIDER=<provider>    # ethereum node URL
+$
+$ # Deploy contract and store address as env var
+$ export CONTRACT_ADDRESS="$(node src/main.js -t deploy)"
+$
+$ # Build the frontend
+$ npm run build:client
 $ 
 $ # Start Express HTTP server
 $ npm start                           

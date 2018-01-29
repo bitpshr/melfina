@@ -40,7 +40,7 @@ class App extends Component {
 	}
 
 	finishProcess(ok, status) {
-		const processes = [...this.state.processes];
+		const processes = [ ...this.state.processes ];
 		const lastProcess = processes[processes.length - 1];
 		lastProcess.status = ok ? 'ok' : 'fail';
 		lastProcess.status = status || lastProcess.status;

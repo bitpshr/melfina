@@ -9,16 +9,15 @@
  * are permitted for security reasons.
  */
 
-const fs = require('fs');
-const path = require('path');
-
 const abiDecoder = require('abi-decoder');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const env = require('dotenv').config();
 const express = require('express');
+const fs = require('fs');
 const keythereum = require('keythereum');
 const moment = require('moment');
+const path = require('path');
 const shajs = require('sha.js');
 const solc = require('solc');
 const Tx = require('ethereumjs-tx');
@@ -66,8 +65,6 @@ const abi = JSON.parse(fs.readFileSync(abiPath, 'utf8'));
 const binPath = 'src/contracts/src_contracts_ProofOfExistence_sol_ProofOfExistence.bin';
 const bin = `0x${fs.readFileSync(binPath, 'utf8')}`;
 const contract = new web3.eth.Contract(abi, contractAddress);
-// This is only required because Infura doesn't support subscriptions
-// TODO: Remove this when websocket support lands, https://git.io/vF5o3
 abiDecoder.addABI(abi);
 
 /**
@@ -121,7 +118,6 @@ async function sendTransaction(methodName, params, lastNonce, immediate, silent)
 
 	const tx = new Tx({
 		data: data.encodeABI(),
-		// TODO: Configure these more carefully
 		gasLimit: web3.utils.toHex(400000),
 		gasPrice: web3.utils.toHex(20000000000),
 		nonce: web3.utils.toHex(nonce),
