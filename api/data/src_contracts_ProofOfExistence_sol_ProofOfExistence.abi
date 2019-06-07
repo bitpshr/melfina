@@ -1,0 +1,48 @@
+[{
+	"constant": false,
+	"inputs": [{
+		"name": "dataHash",
+		"type": "string"
+	}],
+	"name": "notarize",
+	"outputs": [],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"constant": false,
+	"inputs": [{
+		"name": "dataHash",
+		"type": "string"
+	}],
+	"name": "verify",
+	"outputs": [{
+		"name": "",
+		"type": "bool"
+	}],
+	"payable": false,
+	"stateMutability": "nonpayable",
+	"type": "function"
+}, {
+	"anonymous": false,
+	"inputs": [{
+		"indexed": false,
+		"name": "dataHash",
+		"type": "string"
+	}],
+	"name": "OnNotarize",
+	"type": "event"
+}, {
+	"anonymous": false,
+	"inputs": [{
+		"indexed": false,
+		"name": "dataHash",
+		"type": "string"
+	}, {
+		"indexed": false,
+		"name": "notarized",
+		"type": "bool"
+	}],
+	"name": "OnVerify",
+	"type": "event"
+}]

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Melfina: ETH thoughts</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Melfina is a proof-of-thought smart contract built on the Ethereum blockchain."
+		/>
+		<link rel="icon" type="image/png" href="/public/icon.png" />
+		<script src="https://kit.fontawesome.com/62d4eb70f9.js"></script>
+		<link href="https://bitpshr.net/cdn/bitpshr.css" rel="stylesheet" />
+		<style>
+			.monitor {
+				border: 1px solid;
+				display: flex;
+				left: 50%;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 976px;
+			}
+
+			.terminal {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+				padding: 16px;
+			}
+
+			#input {
+				flex: 1;
+				margin-bottom: 16px;
+			}
+
+			.action {
+				align-items: center;
+				display: flex;
+			}
+
+			#count {
+				flex: 1;
+			}
+
+			.action button {
+				margin-left: 16px;
+			}
+
+			.about {
+				border-left: 1px solid;
+				width: 332px;
+			}
+
+			.copy {
+				border-bottom: 1px solid;
+				padding: 16px;
+			}
+
+			.address {
+				float: right;
+			}
+
+			#log {
+				min-height: 172px;
+				padding: 16px;
+			}
+
+			.status {
+				float: right;
+			}
+
+			.ok,
+			.ok > a {
+				color: #27ae60;
+			}
+
+			.fail {
+				color: #c0392b;
+			}
+
+			@media (max-width: 1024px), (max-height: 555px) {
+				body {
+					padding: 24px;
+				}
+
+				.monitor {
+					flex-direction: column;
+					position: static;
+					transform: none;
+					width: 100%;
+				}
+
+				.about {
+					border-left: 0;
+					order: 0;
+					width: 100%;
+				}
+
+				.terminal {
+					order: 1;
+				}
+
+				#log {
+					border-bottom: 1px solid;
+					min-height: auto;
+				}
+
+				#input {
+					flex: none;
+					height: 128px;
+				}
+
+				.action {
+					display: block;
+				}
+
+				.action button {
+					margin: 0 0 16px;
+					width: 100%;
+				}
+
+				#notarize {
+					margin-bottom: 0;
+				}
+
+				#count {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="monitor">
+			<div class="terminal">
+				<textarea id="input" placeholder="Message..."></textarea>
+				<div class="action">
+					<span id="count">0 Chars</span>
+					<button id="verify">Verify</button>
+					<button id="notarize">Submit</button>
+				</div>
+			</div>
+			<div class="about">
+				<div class="copy">
+					<p>MELFINA</p>
+					<p>
+						Melfina is a proof-of-thought smart contract running on the Ethereum blockchain.
+					</p>
+					<p>
+						Submit a thought to store its SHA-256 hash permanently on the blockchain. Verify a thought to
+						see if it's been stored before.
+					</p>
+					<p>
+						Contract live
+						<a
+							href="https://rinkeby.etherscan.io/address/0x58df3B0e6CbF1aE0691C51322252b6A3D52aA6f2"
+							target="_blank"
+							class="accent address"
+							>ADDRESS</a
+						>
+					</p>
+				</div>
+				<div id="log"></div>
+			</div>
+		</div>
+		<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+		<script type="text/babel">
+			(() => {
+				const count = document.querySelector('#count');
+				const input = document.querySelector('#input');
+				const log = document.querySelector('#log');
+
+				function updateCount() {
+					count.innerHTML = `${input.value.length} Chars`;
+				}
+
+				function createLogEntry(message) {
+					const entry = document.createElement('div');
+					entry.classList.add('entry');
+					entry.innerHTML = message;
+
+					const status = document.createElement('span');
+					status.classList.add('status', 'load');
+					status.innerHTML = '<i class="fas fa-cog fa-spin"></i>';
+
+					log.appendChild(entry);
+					entry.appendChild(status);
+
+					return {
+						ok: (label = 'OK') => {
+							status.innerHTML = label;
+							status.classList.add('ok');
+						},
+						fail: (label = 'FAIL') => {
+							status.innerHTML = label;
+							status.classList.add('fail');
+						},
+						tx: hash => {
+							status.innerHTML = `<a href="https://rinkeby.etherscan.io/tx/${hash}" class="accent" target="_blank">TRANSACTION</a>`;
+							status.classList.add('ok');
+						}
+					};
+				}
+
+				async function notarize() {
+					log.innerHTML = '';
+					createLogEntry('Building transaction').ok();
+					const sendEntry = createLogEntry('Sending transaction');
+					try {
+						const response = await fetch('/notarize', {
+							method: 'POST',
+							headers: {
+								Accept: 'application/json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({ value: input.value })
+						});
+						if (!response.ok) {
+							throw new Error();
+						}
+						const txHash = await response.text();
+						sendEntry.ok();
+						input.value = '';
+						createLogEntry('Cleaning up').ok();
+						createLogEntry('Complete').tx(txHash);
+					} catch (error) {
+						sendEntry.fail();
+					}
+				}
+
+				async function verify() {
+					log.innerHTML = '';
+					createLogEntry('Building transaction').ok();
+					const sendEntry = createLogEntry('Sending transaction');
+					try {
+						const response = await fetch(`/verify?value=${input.value}`);
+						if (!response.ok) {
+							throw new Error();
+						}
+						const { notarized, txHash } = await response.json();
+						sendEntry.ok();
+						input.value = '';
+						createLogEntry('Cleaning up').ok();
+						if (notarized) {
+							createLogEntry('Verified?').ok('TRUE');
+						} else {
+							createLogEntry('Verified?').fail('FALSE');
+						}
+						createLogEntry('Complete').tx(txHash);
+					} catch (error) {
+						sendEntry.fail();
+					}
+				}
+
+				document.querySelector('#notarize').addEventListener('click', notarize);
+				document.querySelector('#verify').addEventListener('click', verify);
+				input.addEventListener('input', updateCount);
+			})();
+		</script>
+	</body>
+</html>

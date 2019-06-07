@@ -1,0 +1,51 @@
+{
+  "name": "melfina",
+  "description": "Melfina is a proof-of-thought smart contract built on the Ethereum blockchain.",
+  "version": "1.0.0",
+  "private": true,
+  "license": "WTFPL",
+  "scripts": {
+    "format": "npx prettier '**/!(package.json|package-lock.json|!(*.{html,css,js,jsx,json}))' --write",
+    "lint": "npx eslint ."
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true,
+    "useTabs": true
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "extends": [
+      "eslint:recommended",
+      "prettier"
+    ],
+    "rules": {
+      "no-console": [
+        "off"
+      ]
+    }
+  },
+  "dependencies": {
+    "abi-decoder": "^1.0.9",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.0",
+    "ethereumjs-tx": "^1.3.3",
+    "express": "^4.16.2",
+    "keythereum": "^1.0.2",
+    "moment": "^2.19.2",
+    "sha.js": "^2.4.9",
+    "web3": "^1.0.0-beta.26"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0"
+  }
+}
