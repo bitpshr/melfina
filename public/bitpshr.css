@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	background: #000000;
+	color: #cccccc;
+	font-family: 'Source Code Pro', monospace;
+	font-size: 16px;
+	line-height: 28px;
+	margin: 0;
+	min-height: 100%;
+	padding: 36px;
+}
+
+a {
+	color: #cccccc;
+	display: inline-block;
+	outline: none;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #ffffff;
+}
+
+a.accent {
+	border-bottom: 1px dashed;
+}
+
+p {
+	margin-top: 0;
+}
+
+p:last-child {
+	margin: 0;
+}
+
+textarea {
+	-webkit-appearance: none;
+	background-color: #222222;
+	border: 0;
+	color: #cccccc;
+	display: block;
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 1.75;
+	outline: none;
+	overflow-y: auto;
+	padding: 8px;
+	resize: none;
+	width: 100%;
+}
+
+textarea:focus {
+	background-color: #333333;
+	color: #ffffff;
+}
+
+button,
+.button {
+	background: none;
+	border-radius: 0;
+	border: 1px solid;
+	box-shadow: none;
+	color: #cccccc;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 16px;
+	line-height: 1.75;
+	line-height: 1;
+	outline: none;
+	padding: 8px 16px 10px;
+	text-transform: uppercase;
+}
+
+button:hover,
+.button:hover {
+	color: #ffffff;
+}
+
+@media (max-width: 1024px) {
+	body {
+		padding: 24px;
+	}
+}
+
+@media (prefers-color-scheme: light) {
+	body {
+		color: #333333;
+		background: #efe7d2;
+	}
+
+	a {
+		color: #333333;
+	}
+
+	a:hover {
+		color: #000000;
+	}
+
+	textarea {
+		background-color: #cfd3c1;
+		color: #333333;
+	}
+
+	textarea:focus {
+		background-color: #bfc4b6;
+		color: #111111;
+	}
+
+	button,
+	.button {
+		color: #333333;
+	}
+
+	button:hover,
+	.button:hover {
+		color: #000000;
+	}
+}

@@ -9,7 +9,7 @@
 		/>
 		<link rel="icon" type="image/png" href="/public/icon.png" />
 		<script src="https://kit.fontawesome.com/62d4eb70f9.js"></script>
-		<link href="https://bitpshr.net/cdn/bitpshr.css" rel="stylesheet" />
+		<link href="/public/bitpshr.css" rel="stylesheet" />
 		<style>
 			.monitor {
 				border: 1px solid;
@@ -142,9 +142,7 @@
 			<div class="about">
 				<div class="copy">
 					<p>MELFINA</p>
-					<p>
-						Melfina is a proof-of-thought smart contract running on the Ethereum blockchain.
-					</p>
+					<p>Melfina is a proof-of-thought smart contract running on the Ethereum blockchain.</p>
 					<p>
 						Submit a thought to store its SHA-256 hash permanently on the blockchain. Verify a thought to
 						see if it's been stored before.
@@ -194,10 +192,10 @@
 							status.innerHTML = label;
 							status.classList.add('fail');
 						},
-						tx: hash => {
+						tx: (hash) => {
 							status.innerHTML = `<a href="https://rinkeby.etherscan.io/tx/${hash}" class="accent" target="_blank">TRANSACTION</a>`;
 							status.classList.add('ok');
-						}
+						},
 					};
 				}
 
@@ -210,9 +208,9 @@
 							method: 'POST',
 							headers: {
 								Accept: 'application/json',
-								'Content-Type': 'application/json'
+								'Content-Type': 'application/json',
 							},
-							body: JSON.stringify({ value: input.value })
+							body: JSON.stringify({ value: input.value }),
 						});
 						if (!response.ok) {
 							throw new Error();
